@@ -11,9 +11,9 @@
     >读者信息</div>
     <el-card class="box-card">
       <div slot="header" class="clearfix">
-        <el-form :model="searchParm" label-width="80px" :inline="true" size="small">
+        <el-form :model="searchPram" label-width="80px" :inline="true" size="small">
           <el-form-item v-if="userType == '1'" label="学号">
-            <el-input v-model="searchParm.username"></el-input>
+            <el-input v-model="searchPram.username"></el-input>
           </el-form-item>
           <el-form-item v-if="userType == '1'">
             <el-button icon="el-icon-search" @click="getByUserName">查询</el-button>
@@ -79,10 +79,10 @@
       <!-- 可以使用插槽获取到列信息和行信息，从而进行数据的处理 -->
       <template v-slot:leftCondition="{}">
         <el-form-item label="图书名称">
-          <el-input v-model="listParm.bookName" placeholder="图书名称"></el-input>
+          <el-input v-model="listPram.bookName" placeholder="图书名称"></el-input>
         </el-form-item>
         <el-form-item label="作者">
-          <el-input v-model="listParm.bookAuther" placeholder="作者"></el-input>
+          <el-input v-model="listPram.bookAuther" placeholder="作者"></el-input>
         </el-form-item>
       </template>
       <template v-slot:rightCondition="{ scope }">
@@ -111,11 +111,11 @@ export default {
       returnTime: "",
       bookIds: [],
       //图书列表分页参数
-      listParm: {
+      listPram: {
         currentPage: "",
         pageSize: "",
         bookName: "",
-        bookAuther: "",
+        bookAuthor: "",
       },
       //选择的图书
       tableData: [],
@@ -123,12 +123,12 @@ export default {
         { label: "图书名称", id: "bookName", width: "120px" },
         { label: "图书分类", id: "categoryName", width: "120px" },
         { label: "书架号", id: "bookPlaceNum" },
-        { label: "作者", id: "bookAuther" },
+        { label: "作者", id: "bookAuthor" },
         { label: "出版社", id: "bookProduct" },
         { label: "库存", id: "bookStore" },
       ],
       //读者信息搜索框
-      searchParm: {
+      searchPram: {
         username: "",
         userType: '',
         userId: ''
@@ -167,12 +167,12 @@ export default {
         this.bookIds.push(this.tableData[i].bookId);
       }
       //提交
-      let parm = {
+      let pram = {
         readerId: this.showUser.readerId,
         bookIds: this.bookIds,
         returnTime: this.returnTime,
       };
-      let res = await borrowApi(parm);
+      let res = await borrowApi(pram);
       if (res && res.code == 200) {
         this.$message.success(res.msg);
         setTimeout(function () {
@@ -182,7 +182,7 @@ export default {
     },
     //重置按钮
     resetBtn() {
-      this.searchParm.username = "";
+      this.searchPram.username = "";
       this.showUser.readerId = "";
       this.showUser.learnNum = "";
       this.showUser.username = "";
@@ -194,20 +194,20 @@ export default {
     },
     //获取读者信息
     async getByUserName() {
-      this.searchParm.userId = getUserId()
-      this.searchParm.readerId = getUserId()
-      this.searchParm.userType = getUserType()
-      let res = await getByUserNameApi(this.searchParm);
+      this.searchPram.userId = getUserId()
+      this.searchPram.readerId = getUserId()
+      this.searchPram.userType = getUserType()
+      let res = await getByUserNameApi(this.searchPram);
       if (res && res.code == 200 && res.data) {
         this.showUser = res.data;
       }
     },
     async paginationCallBack(obj) {
       console.log(obj);
-      this.listParm.currentPage = obj.pageIndex;
-      this.listParm.pageSize = obj.pageSize;
+      this.listPram.currentPage = obj.pageIndex;
+      this.listPram.pageSize = obj.pageSize;
       //获取图书数据
-      let res = await getListApi(this.listParm);
+      let res = await getListApi(this.listPram);
       console.log(res);
       return new Promise((resolve, reject) => {
         try {

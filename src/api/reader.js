@@ -1,4 +1,5 @@
 import http from '@/utils/http'
+import http2 from '@/utils/http2'
 //列表
 export const getListApi = async(parm) =>{
     return await http.get('/api/reader/list',parm)
@@ -17,7 +18,7 @@ export const deleteReaderApi = async(parm) =>{
 }
 //根据学号查询
 export const getByUserNameApi = async(parm) =>{
-    return await http.get("/api/reader/getByUserName",parm)
+    return await http2.get("/api/reader/getByUserName",parm)
 }
 //读者注册
 export const registerApi = async(parm) =>{

@@ -1,9 +1,9 @@
 <template>
   <el-main>
     <!-- 搜索栏 -->
-    <el-form :model="noticeParm" label-width="80px" :inline="true" size="mini">
+    <el-form :model="noticePram" label-width="80px" :inline="true" size="mini">
       <el-form-item label="公告标题">
-        <el-input v-model="noticeParm.noticeTitle"></el-input>
+        <el-input v-model="noticePram.noticeTitle"></el-input>
       </el-form-item>
       <el-form-item>
         <el-button icon="el-icon-search" @click="searchBtn">搜索</el-button>
@@ -44,11 +44,11 @@
     <el-pagination
       @size-change="sizeChange"
       @current-change="currentChange"
-      :current-page.sync="noticeParm.currentPage"
+      :current-page.sync="noticePram.currentPage"
       :page-sizes="[10, 20, 40, 80, 100]"
-      :page-size="noticeParm.pageSize"
+      :page-size="noticePram.pageSize"
       layout="total, sizes, prev, pager, next, jumper"
-      :total="noticeParm.total"
+      :total="noticePram.total"
       background
     ></el-pagination>
     <!-- 新增、编辑弹框 -->
@@ -117,7 +117,7 @@ export default {
       },
       tableHeight: 0,
       tableData: [],
-      noticeParm: {
+      noticePram: {
         currentPage: 1,
         pageSize: 10,
         noticeTitle: "",
@@ -172,10 +172,10 @@ export default {
     async deleteBtn(row) {
       let confirm = await this.$myconfirm("确定删除该数据吗?");
       if (confirm) {
-        let parm = {
+        let pram = {
           noticeId: row.noticeId,
         };
-        let res = await deleteApi(parm);
+        let res = await deleteApi(pram);
         if (res && res.code == 200) {
           this.$message.success(res.msg);
           this.getList();
@@ -195,7 +195,7 @@ export default {
     },
     //重置按钮
     resetBtn() {
-      this.noticeParm.noticeTitle = "";
+      this.noticePram.noticeTitle = "";
       this.getList();
     },
     //搜索按钮
@@ -213,10 +213,10 @@ export default {
       this.dialog.visible = true;
     },
     async getList() {
-      let res = await getListApi(this.noticeParm);
+      let res = await getListApi(this.noticePram);
       if (res && res.code == 200) {
         this.tableData = res.data.records;
-        this.noticeParm.total = res.data.total;
+        this.noticePram.total = res.data.total;
       }
     },
   },

@@ -1,4 +1,4 @@
-import http from '@/utils/http'
+import http from '@/utils/http2'
 //列表
 export const getListApi = async(parm) =>{
     return await http.get("/api/category/list",parm)

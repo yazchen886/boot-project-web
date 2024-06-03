@@ -1,18 +1,18 @@
 <template>
   <el-main>
     <!-- 搜索栏 -->
-    <el-form :model="lookParm" label-width="80px" :inline="true" size="mini">
+    <el-form :model="lookPram" label-width="80px" :inline="true" size="mini">
       <el-form-item v-if="userType == '1'" label="读者学号">
-        <el-input v-model="lookParm.username"></el-input>
+        <el-input v-model="lookPram.username"></el-input>
       </el-form-item>
       <el-form-item v-if="userType == '1'" label="读者姓名">
-        <el-input v-model="lookParm.learnNum"></el-input>
+        <el-input v-model="lookPram.learnNum"></el-input>
       </el-form-item>
       <el-form-item label="图书名称">
-        <el-input v-model="lookParm.bookName"></el-input>
+        <el-input v-model="lookPram.bookName"></el-input>
       </el-form-item>
       <el-form-item label="借书状态">
-        <el-select v-model="lookParm.borrowStatus" placeholder="请选择">
+        <el-select v-model="lookPram.borrowStatus" placeholder="请选择">
           <el-option
             v-for="item in options"
             :key="item.value"
@@ -23,7 +23,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="异常状态">
-        <el-select v-model="lookParm.returnStatus" placeholder="请选择">
+        <el-select v-model="lookPram.returnStatus" placeholder="请选择">
           <el-option
             v-for="item in exceoptions"
             :key="item.value"
@@ -34,7 +34,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="到期状态">
-        <el-select v-model="lookParm.timeStatus" placeholder="请选择">
+        <el-select v-model="lookPram.timeStatus" placeholder="请选择">
           <el-option
             v-for="item in timetions"
             :key="item.value"
@@ -45,7 +45,7 @@
         </el-select>
       </el-form-item>
       <el-form-item label="审核状态">
-        <el-select v-model="lookParm.applyStatus" placeholder="请选择">
+        <el-select v-model="lookPram.applyStatus" placeholder="请选择">
           <el-option
             v-for="item in applytions"
             :key="item.value"
@@ -152,11 +152,11 @@
     <el-pagination
       @size-change="sizeChange"
       @current-change="currentChange"
-      :current-page.sync="lookParm.currentPage"
+      :current-page.sync="lookPram.currentPage"
       :page-sizes="[7, 20, 40, 80, 100]"
-      :page-size="lookParm.pageSize"
+      :page-size="lookPram.pageSize"
       layout="total, sizes, prev, pager, next, jumper"
-      :total="lookParm.total"
+      :total="lookPram.total"
       background
     >
     </el-pagination>
@@ -268,7 +268,7 @@ export default {
           label: "拒绝"
         }
       ],
-      lookParm: {
+      lookPram: {
         userId: getUserId(),
         total: 0,
         currentPage: 1,
@@ -329,28 +329,28 @@ export default {
     },
     resetBtn() {
       //清空表单
-      this.lookParm.username = "";
-      this.lookParm.learnNum = "";
-      this.lookParm.bookName = "";
-      this.lookParm.applyStatus = "";
-      this.lookParm.borrowStatus = "";
-      this.lookParm.returnStatus = "";
-      this.lookParm.timeStatus = "";
+      this.lookPram.username = "";
+      this.lookPram.learnNum = "";
+      this.lookPram.bookName = "";
+      this.lookPram.applyStatus = "";
+      this.lookPram.borrowStatus = "";
+      this.lookPram.returnStatus = "";
+      this.lookPram.timeStatus = "";
       this.getLookBorrowList();
     },
     currentChange(val) {
-      this.lookParm.currentPage = val;
+      this.lookPram.currentPage = val;
       this.getLookBorrowList();
     },
     sizeChange(val) {
-      this.lookParm.pageSize = val;
+      this.lookPram.pageSize = val;
       this.getLookBorrowList();
     },
     async getLookBorrowList() {
-      let res = await getLookBorrowListApi(this.lookParm);
+      let res = await getLookBorrowListApi(this.lookPram);
       if (res && res.code == 200) {
         this.tableData = res.data.records;
-        this.lookParm.total = res.data.total;
+        this.lookPram.total = res.data.total;
       }
     }
   }

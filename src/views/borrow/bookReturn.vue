@@ -1,12 +1,12 @@
 <template>
   <el-main>
     <!-- 搜索栏 -->
-    <el-form :model="listParm" label-width="80px" :inline="true" size="small">
+    <el-form :model="listPram" label-width="80px" :inline="true" size="small">
       <el-form-item v-if="userType == '1'" label="学号">
-        <el-input v-model="listParm.username"></el-input>
+        <el-input v-model="listPram.username"></el-input>
       </el-form-item>
       <el-form-item label="借书状态">
-        <el-select v-model="listParm.borrowStatus" placeholder="请选择">
+        <el-select v-model="listPram.borrowStatus" placeholder="请选择">
           <el-option
             v-for="item in options"
             :key="item.value"
@@ -83,11 +83,11 @@
     <el-pagination
       @size-change="sizeChange"
       @current-change="currentChange"
-      :current-page.sync="listParm.currentPage"
+      :current-page.sync="listPram.currentPage"
       :page-sizes="[10, 20, 40, 80, 100]"
-      :page-size="listParm.pageSize"
+      :page-size="listPram.pageSize"
       layout="total, sizes, prev, pager, next, jumper"
-      :total="listParm.total"
+      :total="listPram.total"
       background
     >
     </el-pagination>
@@ -198,7 +198,7 @@ export default {
         },
       ],
       tableData: [],
-      listParm: {
+      listPram: {
         currentPage: 1,
         pageSize: 10,
         username: "",
@@ -260,11 +260,11 @@ export default {
       }
     },
     currentChange(val) {
-      this.listParm.currentPage = val;
+      this.listPram.currentPage = val;
       this.returnBorrow();
     },
     sizeChange(val) {
-      this.listParm.pageSize = val;
+      this.listPram.pageSize = val;
       this.returnBorrow();
     },
     async returnBtn() {
@@ -290,20 +290,20 @@ export default {
       }
     },
     resetBtn() {
-      this.listParm.currentPage = 1;
-      this.listParm.username = "";
-      this.listParm.borrowStatus = "";
+      this.listPram.currentPage = 1;
+      this.listPram.username = "";
+      this.listPram.borrowStatus = "";
       this.returnBorrow();
     },
     searchBtn() {
       this.returnBorrow();
     },
     async returnBorrow() {
-      let res = await returnBorrowApi(this.listParm);
+      let res = await returnBorrowApi(this.listPram);
       if (res && res.code == 200) {
         console.log(res);
         this.tableData = res.data.records;
-        this.listParm.total = res.data.total;
+        this.listPram.total = res.data.total;
       }
     },
   },

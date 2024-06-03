@@ -1,29 +1,29 @@
 <template>
   <el-main>
     <!-- 搜索栏 -->
-    <el-form :model="listParm" :inline="true" size="small">
+    <el-form :model="listPram" :inline="true" size="small">
       <el-form-item>
         <el-input
           placeholder="请输入学号"
-          v-model="listParm.username"
+          v-model="listPram.username"
         ></el-input>
       </el-form-item>
       <el-form-item>
         <el-input
           placeholder="请输入姓名"
-          v-model="listParm.learnNum"
+          v-model="listPram.learnNum"
         ></el-input>
       </el-form-item>
       <el-form-item>
         <el-input
           placeholder="请输入电话号码"
-          v-model="listParm.phone"
+          v-model="listPram.phone"
         ></el-input>
       </el-form-item>
       <el-form-item>
         <el-input
           placeholder="请输入身份证号码"
-          v-model="listParm.idCard"
+          v-model="listPram.idCard"
         ></el-input>
       </el-form-item>
       <el-form-item>
@@ -108,11 +108,11 @@
     <el-pagination
       @size-change="sizeChange"
       @current-change="currentChange"
-      :current-page.sync="listParm.currentPage"
+      :current-page.sync="listPram.currentPage"
       :page-sizes="[10, 20, 40, 80, 100]"
-      :page-size="listParm.pageSize"
+      :page-size="listPram.pageSize"
       layout="total, sizes, prev, pager, next, jumper"
-      :total="listParm.total"
+      :total="listPram.total"
       background
     >
     </el-pagination>
@@ -237,7 +237,7 @@ export default {
       //表格数据
       tableData: [],
       //列表参数
-      listParm: {
+      listPram: {
         total: 0,
         currentPage: 1,
         pageSize: 10,
@@ -311,11 +311,11 @@ export default {
     sizeChange(val) {},
     //获取列表
     async getList() {
-      let res = await getListApi(this.listParm);
+      let res = await getListApi(this.listPram);
       if (res && res.code == 200) {
         console.log(res);
         this.tableData = res.data.records;
-        this.listParm.total = res.data.total;
+        this.listPram.total = res.data.total;
       }
     },
     //删除按钮
@@ -353,10 +353,10 @@ export default {
     },
     //重置按钮
     resetBtn() {
-      this.listParm.username = "";
-      this.listParm.idCard = "";
-      this.listParm.learnNum = "";
-      this.listParm.phone = "";
+      this.listPram.username = "";
+      this.listPram.idCard = "";
+      this.listPram.learnNum = "";
+      this.listPram.phone = "";
       this.getList();
     },
     //搜索按钮

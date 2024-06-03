@@ -25,6 +25,22 @@
           placeholder="请输入密码"
         ></el-input>
       </el-form-item>
+      <el-form-item prop="userType">
+        <el-radio-group v-model="loginForm.userType">
+          <el-radio :label="'0'">读者</el-radio>
+          <el-radio :label="'1'">管理员</el-radio>
+        </el-radio-group>
+        <span
+          @click="registerBtn"
+          style="
+            color: #ff7670;
+            float: right;
+            margin-right: 15px;
+            cursor: pointer;
+          "
+          >无账号，读者注册</span
+        >
+      </el-form-item>
       <el-form-item>
         <el-row :gutter="20">
           <el-col :span="12" :offset="0">
@@ -35,17 +51,6 @@
           <el-col :span="12" :offset="0">
             <el-button class="mybtn">取消</el-button>
           </el-col>
-          <span
-            @click="registerBtn"
-            style="
-            font-size: smaller;
-            color: #ff7670;
-            float: right;
-            margin-right: 20px;
-            cursor: pointer;
-          "
-          >无账号，读者注册</span
-          >
         </el-row>
       </el-form-item>
     </el-form>
@@ -171,6 +176,7 @@ export default {
       loginForm: {
         username: "",
         password: "",
+        userType: "", //0：读者  1： 管理员
       },
       //表单验证规则
       rules: {
@@ -186,6 +192,13 @@ export default {
             trigger: "change",
             required: true,
             message: "请输入密码",
+          },
+        ],
+        userType: [
+          {
+            trigger: "change",
+            required: true,
+            message: "请选择用户类型",
           },
         ],
       },
@@ -223,6 +236,7 @@ export default {
         //验证通过才提交表单
         if (valid) {
           this.loading = true;
+          setUserType(this.loginForm.userType)
           //调用store里面的login方法
           this.$store
             .dispatch("user/login", this.loginForm)
@@ -231,8 +245,12 @@ export default {
               this.$router.push({ path: this.redirect || "/" });
               this.loading = false;
             })
-            .catch(() => {
+            .catch((error) => {
               this.loading = false;
+              if (error.response && error.response.status === 400 && error.response.data.error === "账号/密码错误") {
+                // 密码错误的提示逻辑
+                this.$message.error('账号或密码错误，请重新输入！');
+              }
             });
         }
       });

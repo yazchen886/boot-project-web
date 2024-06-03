@@ -1,10 +1,10 @@
 <template>
   <el-main>
     <!--搜索栏 -->
-    <el-form :model="listParm" label-width="80px" :inline="true" size="small">
+    <el-form :model="listPram" label-width="80px" :inline="true" size="small">
       <el-form-item>
         <el-input
-          v-model="listParm.categoryName"
+          v-model="listPram.categoryName"
           placeholder="请输入类型名称"
         ></el-input>
       </el-form-item>
@@ -51,11 +51,11 @@
     <el-pagination
       @size-change="sizeChange"
       @current-change="currentChange"
-      :current-page.sync="listParm.currentPage"
+      :current-page.sync="listPram.currentPage"
       :page-sizes="[10, 20, 40, 80, 100]"
-      :page-size="listParm.pageSize"
+      :page-size="listPram.pageSize"
       layout="total, sizes, prev, pager, next, jumper"
-      :total="listParm.total"
+      :total="listPram.total"
       background
     >
     </el-pagination>
@@ -134,7 +134,7 @@ export default {
       //表格数据
       tableData: [],
       //列表参数
-      listParm: {
+      listPram: {
         currentPage: 1,
         pageSize: 10,
         categoryName: "",
@@ -178,21 +178,21 @@ export default {
     },
     //获取列表
     async getList() {
-      let res = await getListApi(this.listParm);
+      let res = await getListApi(this.listPram);
       if (res && res.code == 200) {
         console.log(res);
         this.tableData = res.data.records;
-        this.listParm.total = res.data.total;
+        this.listPram.total = res.data.total;
       }
     },
     //页数改变时触发事件
     currentChange(val) {
-      this.listParm.currentPage = val;
+      this.listPram.currentPage = val;
       this.getList();
     },
     //页容量改动时触发事件
     sizeChange(val) {
-      this.listParm.pageSize = val;
+      this.listPram.pageSize = val;
       this.getList();
     },
     //删除按钮
@@ -232,7 +232,7 @@ export default {
     //重置按钮
     resetBtn() {
       //清空表单
-      this.listParm.categoryName = "";
+      this.listPram.categoryName = "";
       this.getList();
     },
     //搜索按钮
